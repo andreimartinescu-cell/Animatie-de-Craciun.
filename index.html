@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christmas Magic 🎄</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 100%; min-height: 100%; }
+  body {
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #fff;
+    background: linear-gradient(#07152f 0%, #102b55 55%, #23466b 100%);
+  }
+  .scene { position: relative; height: 100vh; min-height: 520px; overflow: hidden; isolation: isolate; }
+  .moon {
+    position: absolute; right: 12%; top: 8%; width: 115px; height: 115px; border-radius: 50%;
+    background: #fff4c8; box-shadow: 0 0 35px #fff1b5, 0 0 90px #c9e4ff66;
+  }
+  .moon:after {
+    content:""; position:absolute; inset:15px 20px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #e1d9b7 0 7px, transparent 8px),
+                radial-gradient(circle at 70% 60%, #e1d9b7 0 12px, transparent 13px),
+                radial-gradient(circle at 43% 75%, #e1d9b7 0 6px, transparent 7px);
+    opacity:.7;
+  }
+  .greeting {
+    position:absolute; z-index:5; top:8%; left:5%; max-width:55%;
+    font-size:clamp(2rem, 6vw, 5rem); line-height:1.05; margin:0;
+    color:#fff5d8; text-shadow:0 0 14px #ffcf6b, 0 4px 18px #0008;
+    animation: glow 2.4s ease-in-out infinite alternate;
+  }
+  .greeting small { display:block; font: 500 clamp(.8rem, 1.8vw, 1.15rem)/1.7 Arial,sans-serif; letter-spacing:.22em; color:#d9ecff; }
+  .santa {
+    position:absolute; top:24%; left:-35%; z-index:4; font-size:clamp(2.4rem, 6vw, 5rem);
+    white-space:nowrap; filter:drop-shadow(0 5px 8px #0007);
+    animation: fly 18s linear infinite;
+  }
+  .santa span { display:inline-block; animation: bob 1.2s ease-in-out infinite alternate; }
+  .stars { position:absolute; inset:0; background-image:
+    radial-gradient(2px 2px at 12% 22%, #fff 98%, transparent),
+    radial-gradient(2px 2px at 45% 16%, #fff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 68% 35%, #fff 98%, transparent),
+    radial-gradient(2px 2px at 84% 48%, #fff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 32% 43%, #fff 98%, transparent),
+    radial-gradient(2px 2px at 57% 8%, #fff 98%, transparent);
+    animation: twinkle 3s ease-in-out infinite alternate; }
+  .snow { position:absolute; inset:-100px 0 0; z-index:6; pointer-events:none;
+    background-image: radial-gradient(3px 3px at 20px 30px,#fff 98%,transparent),
+      radial-gradient(2px 2px at 80px 120px,#fff 98%,transparent),
+      radial-gradient(3px 3px at 150px 70px,#fff 98%,transparent),
+      radial-gradient(2px 2px at 220px 180px,#fff 98%,transparent),
+      radial-gradient(4px 4px at 300px 40px,#fff 98%,transparent);
+    background-size: 320px 220px; opacity:.8; animation: snow 7s linear infinite; }
+  .hills { position:absolute; z-index:1; bottom:70px; left:-5%; width:110%; height:34%;
+    background:#dcecff; border-radius:50% 50% 0 0 / 25% 25% 0 0; }
+  .hills:before { content:""; position:absolute; left:-8%; top:-24%; width:65%; height:70%; border-radius:50%; background:#edf6ff; }
+  .hills:after { content:""; position:absolute; right:-8%; top:-12%; width:65%; height:75%; border-radius:50%; background:#c9def5; }
+  .cabin { position:absolute; z-index:2; bottom:70px; left:7%; width:clamp(170px, 25vw, 310px); height:clamp(125px, 20vw, 220px);
+    background:#713d2b; border:5px solid #542b23; box-shadow:inset 0 0 0 4px #a45c38, 0 8px 25px #152d4b55; }
+  .roof { position:absolute; top:-65px; left:-24px; width:calc(100% + 48px); height:90px; background:#344c68;
+    clip-path:polygon(50% 0,100% 70%,94% 82%,50% 24%,6% 82%,0 70%); }
+  .roof:after { content:""; position:absolute; inset:0; background:#f4f8ff; clip-path:polygon(50% 0,100% 70%,94% 82%,50% 24%,6% 82%,0 70%); transform:translateY(-7px); }
+  .window { position:absolute; top:35px; width:30%; height:45%; background:#ffd66e; border:6px solid #4a2924; box-shadow:0 0 22px #ffcb55; }
+  .window.left { left:8%; } .window.right { right:8%; }
+  .window:after { content:""; position:absolute; left:46%; top:0; bottom:0; width:5px; background:#6b3826; }
+  .window:before { content:""; position:absolute; top:46%; left:0; right:0; height:5px; background:#6b3826; }
+  .door { position:absolute; bottom:0; left:39%; width:23%; height:58%; background:#4b2924; border:5px solid #a76743; border-bottom:0; }
+  .door:after { content:""; position:absolute; right:9px; top:50%; width:6px; height:6px; border-radius:50%; background:#ffd66e; }
+  .tree { position:absolute; z-index:3; bottom:65px; right:13%; width:clamp(160px, 24vw, 280px); height:clamp(250px, 38vw, 410px); }
+  .tree .layer { position:absolute; left:50%; transform:translateX(-50%); width:0; height:0; border-left:var(--w) solid transparent; border-right:var(--w) solid transparent; border-bottom:var(--h) solid #0d654c; filter:drop-shadow(0 4px 0 #074333); }
+  .tree .l1 { top:0; --w:40px; --h:90px; } .tree .l2 { top:45px; --w:70px; --h:110px; }
+  .tree .l3 { top:100px; --w:100px; --h:125px; } .tree .l4 { top:165px; --w:130px; --h:140px; }
+  .tree .trunk { position:absolute; bottom:0; left:43%; width:14%; height:23%; background:#70452d; }
+  .star { position:absolute; top:-28px; left:calc(50% - 20px); z-index:2; font-size:42px; color:#ffe780; text-shadow:0 0 20px #ffd44d; animation: glow 1.3s infinite alternate; }
+  .ornament { position:absolute; z-index:3; width:13px; height:13px; border-radius:50%; background:#e94b50; box-shadow:0 0 9px #ff9a8d; animation: glow 1.8s infinite alternate; }
+  .o1{top:95px;left:38%;}.o2{top:160px;left:64%;background:#ffd65b}.o3{top:220px;left:28%;background:#66d8ff}.o4{top:270px;left:61%;}.o5{top:320px;left:43%;background:#ffd65b}
+  .ground { position:absolute; z-index:4; bottom:0; width:100%; height:90px; background:#f0f7ff; }
+  .ground:before { content:""; position:absolute; top:-18px; width:100%; height:30px; border-radius:50%; background:#f0f7ff; }
+  .footer { position:absolute; z-index:7; bottom:25px; left:0; right:0; text-align:center; color:#365a7c; font:600 12px Arial,sans-serif; letter-spacing:.25em; }
+  @keyframes fly { from { left:-38%; transform:translateY(0); } 50% { transform:translateY(-35px); } to { left:110%; transform:translateY(0); } }
+  @keyframes bob { to { transform:translateY(-8px) rotate(2deg); } }
+  @keyframes snow { to { background-position:0 440px; } }
+  @keyframes twinkle { from { opacity:.55; } to { opacity:1; } }
+  @keyframes glow { from { filter:brightness(1); } to { filter:brightness(1.25); } }
+  @media(max-width:600px) {
+    .greeting { top:7%; max-width:70%; }
+    .moon { width:78px;height:78px;right:8%;top:20%; }
+    .santa { top:34%; }
+    .tree { right:-2%; transform:scale(.82); transform-origin:bottom right; }
+    .cabin { left:2%; }
+    .footer { letter-spacing:.12em; }
+  }
+</style>
+</head>
+<body>
+<main class="scene" aria-label="Animație de Crăciun">
+  <div class="stars"></div><div class="moon"></div>
+  <h1 class="greeting">Merry<br>Christmas!<small>MAGIA SĂRBĂTORILOR E AICI ✨</small></h1>
+  <div class="santa" aria-label="Moș Crăciun zboară">🛷 <span>🎅🏻 🦌🦌🦌</span></div>
+  <div class="cabin"><div class="roof"></div><div class="window left"></div><div class="window right"></div><div class="door"></div></div>
+  <div class="tree">
+    <div class="star">★</div><div class="layer l1"></div><div class="layer l2"></div><div class="layer l3"></div><div class="layer l4"></div>
+    <div class="ornament o1"></div><div class="ornament o2"></div><div class="ornament o3"></div><div class="ornament o4"></div><div class="ornament o5"></div><div class="trunk"></div>
+  </div>
+  <div class="hills"></div><div class="ground"></div><div class="snow"></div>
+  <div class="footer">HAVE YOURSELF A MAGICAL CHRISTMAS</div>
+</main>
+</body>
+</html>
